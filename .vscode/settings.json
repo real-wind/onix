@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "types.h": "c",
+        "debug.h": "c",
+        "bitmap.h": "c",
+        "string.h": "c",
+        "onix.h": "c",
+        "task.h": "c"
+    }
+}

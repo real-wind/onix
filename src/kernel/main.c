@@ -1,5 +1,6 @@
 
 #include <onix/debug.h>
+#include <onix/types.h>
 #include <onix/interrupt.h>
 
 #define LOGK(fmt, args...) DEBUGK(fmt, ##args)

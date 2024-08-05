@@ -13,10 +13,10 @@ extern bitmap_t kernel_map;
 extern void task_switch(task_t *next);
 
 #define NR_TASKS 64
-static task_t *task_table[NR_TASKS]; // 任务表
-static list_t block_list;            // 任务默认阻塞链表
+static task_t *task_table[NR_TASKS]; // 任务�?
+static list_t block_list;            // 任务默�?�阻塞链�?
 
-// 从 task_table 里获得一个空闲的任务
+// �? task_table 里获得一�?空闲的任�?
 static task_t *get_free_task()
 {
     for (size_t i = 0; i < NR_TASKS; i++)
@@ -30,7 +30,7 @@ static task_t *get_free_task()
     panic("No more tasks");
 }
 
-// 从任务数组中查找某种状态的任务，自己除外
+// 从任务数组中查找某�?�状态的任务，自己除�?
 static task_t *task_search(task_state_t state)
 {
     assert(!get_interrupt_state());
@@ -59,7 +59,7 @@ void task_yield()
     schedule();
 }
 
-// 任务阻塞
+// 任务阻�??
 void task_block(task_t *task, list_t *blist, task_state_t state)
 {
     assert(!get_interrupt_state());
@@ -84,7 +84,7 @@ void task_block(task_t *task, list_t *blist, task_state_t state)
     }
 }
 
-// 解除任务阻塞
+// 解除任务阻�??
 void task_unblock(task_t *task)
 {
     assert(!get_interrupt_state());
@@ -106,7 +106,7 @@ task_t *running_task()
 
 void schedule()
 {
-    assert(!get_interrupt_state()); // 不可中断
+    assert(!get_interrupt_state()); // 不可�?�?
 
     task_t *current = running_task();
     task_t *next = task_search(TASK_READY);
@@ -211,5 +211,5 @@ void task_init()
 
     task_create(thread_a, "a", 5, KERNEL_USER);
     task_create(thread_b, "b", 5, KERNEL_USER);
-    // task_create(thread_c, "c", 5, KERNEL_USER);
+    task_create(thread_c, "c", 5, KERNEL_USER);
 }
