@@ -10,7 +10,7 @@ void idle_thread()
     u32 counter = 0;
     while (true)
     {
-        LOGK("idle task.... %d \n", counter++);
+        // LOGK("idle task.... %d \n", counter++);
 
         asm volatile(
             "sti\n" // 开中断
@@ -23,10 +23,23 @@ void idle_thread()
 void init_thread()
 {
     set_interrupt_state(true);
+    u32 counter = 0;
 
     while (true)
     {
-        LOGK("init task....\n");
-        // test();
+        LOGK("init task %d....\n", counter++);
+        sleep(500);
+    }
+}
+
+void test_thread()
+{
+    set_interrupt_state(true);
+    u32 counter = 0;
+
+    while (true)
+    {
+        LOGK("test task %d....\n", counter++);
+        sleep(709);
     }
 }
