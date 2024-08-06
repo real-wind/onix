@@ -52,10 +52,10 @@ _next:
 
     call memory_init    ; 内存初始化
 
-    xchg bx, bx
+    ; xchg bx, bx
     mov esp, 0x10000; 修改栈顶
-    xchg bx, bx
-    
+    ; xchg bx, bx
+
     call kernel_init    ; 内核初始化
 
     jmp $; 阻塞
