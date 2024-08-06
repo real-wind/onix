@@ -21,6 +21,7 @@ void kernel_init()
     mapping_init();
     interrupt_init();
     clock_init();
+    keyboard_init();
 
     // time_init();
     // rtc_init();
