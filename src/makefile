@@ -53,6 +53,7 @@ $(BUILD)/kernel.bin: \
 	$(BUILD)/kernel/keyboard.o \
 	$(BUILD)/kernel/arena.o \
 	$(BUILD)/kernel/ide.o \
+	$(BUILD)/kernel/device.o \
 	$(BUILD)/lib/bitmap.o \
 	$(BUILD)/lib/list.o \
 	$(BUILD)/lib/string.o \
@@ -89,7 +90,7 @@ $(BUILD)/master.img: $(BUILD)/boot/boot.bin \
 
 # 对硬盘进行分区
 	sfdisk $@ < $(SRC)/utils/master.sfdisk
-	
+
 $(BUILD)/slave.img:
 
 # 创建一个 32M 的硬盘镜像
