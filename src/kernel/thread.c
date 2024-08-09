@@ -65,8 +65,7 @@ void test_thread()
 
     while (true)
     {
-        // LOGK("test task %d....\n", counter++);
-        // BMB;
-        sleep(2000);
+        test();
+        // sleep(10);
     }
 }
