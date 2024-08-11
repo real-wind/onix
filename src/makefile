@@ -56,6 +56,7 @@ $(BUILD)/kernel.bin: \
 	$(BUILD)/kernel/device.o \
 	$(BUILD)/kernel/buffer.o \
 	$(BUILD)/fs/super.o \
+	$(BUILD)/fs/bmap.o \
 	$(BUILD)/lib/bitmap.o \
 	$(BUILD)/lib/list.o \
 	$(BUILD)/lib/string.o \
