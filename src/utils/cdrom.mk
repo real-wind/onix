@@ -1,5 +1,3 @@
-include makefile
-
 $(BUILD)/kernel.iso : $(BUILD)/kernel.bin $(SRC)/utils/grub.cfg
 
 # 检测内核文件是否合法
@@ -28,4 +26,3 @@ qemub: $(BUILD)/kernel.iso $(IMAGES)
 
 .PHONY:cdrom
 cdrom: $(BUILD)/kernel.iso $(IMAGES)
-	-
