@@ -65,6 +65,7 @@ void test_thread()
 
     while (true)
     {
+        test();
         sleep(10);
     }
 }
