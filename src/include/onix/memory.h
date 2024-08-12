@@ -21,9 +21,6 @@
 // 内存虚拟磁盘大小
 #define KERNEL_RAMDISK_SIZE 0x400000
 
-// 内核占用的内存大小 8M
-#define KERNEL_MEMORY_SIZE 0x800000
-
 // 用户栈顶地址 128M
 #define USER_STACK_TOP 0x8000000
 
