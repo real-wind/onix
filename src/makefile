@@ -55,6 +55,7 @@ $(BUILD)/kernel.bin: \
 	$(BUILD)/kernel/ide.o \
 	$(BUILD)/kernel/device.o \
 	$(BUILD)/kernel/buffer.o \
+	$(BUILD)/kernel/system.o \
 	$(BUILD)/fs/super.o \
 	$(BUILD)/fs/bmap.o \
 	$(BUILD)/fs/inode.o \
