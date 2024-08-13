@@ -5,7 +5,6 @@
 #include <onix/stdio.h>
 #include <onix/arena.h>
 
-
 // #include <asm/unistd_32.h>
 
 #define LOGK(fmt, args...) DEBUGK(fmt, ##args)
@@ -16,7 +15,7 @@ void idle_thread()
     u32 counter = 0;
     while (true)
     {
-        // LOGK("idle task.... %d \n", counter++);
+        // LOGK("idle task.... %d\n", counter++);
         // BMB;
         asm volatile(
             "sti\n" // 开中断
@@ -26,11 +25,9 @@ void idle_thread()
     }
 }
 
-
 static void user_init_thread()
 {
     int status;
-
     while (true)
     {
         // test();
@@ -61,10 +58,12 @@ void init_thread()
 void test_thread()
 {
     set_interrupt_state(true);
-    test();
-
+    // test();
+    mkdir("/world.txt", 0755);
+    rmdir("/empty");
     while (true)
     {
+        test();
         sleep(10);
     }
 }

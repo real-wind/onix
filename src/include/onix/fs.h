@@ -1,7 +1,9 @@
 #ifndef ONIX_FS_H
 #define ONIX_FS_H
+
 #include <onix/types.h>
 #include <onix/list.h>
+
 #define BLOCK_SIZE 1024 // 块大小
 #define SECTOR_SIZE 512 // 扇区大小
 
@@ -36,8 +38,6 @@ typedef struct inode_desc_t
     u16 zone[9]; // 直接 (0-6)、间接(7)或双重间接 (8) 逻辑块号
 } inode_desc_t;
 
-
-
 typedef struct inode_t
 {
     inode_desc_t *desc;   // inode 描述符
@@ -53,7 +53,7 @@ typedef struct inode_t
 
 typedef struct super_desc_t
 {
-    u16 inodes;        // 节点数 
+    u16 inodes;        // 节点数
     u16 zones;         // 逻辑块数
     u16 imap_blocks;   // i 节点位图所占用的数据块数
     u16 zmap_blocks;   // 逻辑块位图所占用的数据块数
