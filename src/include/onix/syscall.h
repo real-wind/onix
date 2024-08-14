@@ -12,6 +12,7 @@ typedef enum syscall_t
     SYS_NR_TEST,
     SYS_NR_EXIT = 1,
     SYS_NR_FORK = 2,
+    SYS_NR_READ = 3,
     SYS_NR_WRITE = 4,
     SYS_NR_OPEN = 5,
     SYS_NR_CLOSE = 6,
@@ -50,6 +51,11 @@ fd_t open(char *filename, int flags, int mode);
 fd_t creat(char *filename, int mode);
 // 关闭文件
 void close(fd_t fd);
+
+// 读文件
+int read(fd_t fd, char *buf, int len);
+// 写文件
+int write(fd_t fd, char *buf, int len);
 
 int32 write(fd_t fd, char *buf, u32 len);
 
