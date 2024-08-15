@@ -5,7 +5,7 @@
 #include <onix/stdio.h>
 #include <onix/arena.h>
 #include <onix/fs.h>
-#include <onix/string.h>
+
 
 // #include <asm/unistd_32.h>
 
@@ -46,10 +46,12 @@ static void user_init_thread()
         }
     }
 }
+extern void dev_init();
 
 void init_thread()
 {
     char temp[100]; // 为栈顶有足够的空间
+    dev_init();
     task_to_user_mode(user_init_thread);
 }
 

@@ -84,6 +84,7 @@ typedef struct super_block_t
     struct buffer_t *imaps[IMAP_NR]; // inode 位图缓冲
     struct buffer_t *zmaps[ZMAP_NR]; // 块位图缓冲
     dev_t dev;                       // 设备号
+    u32 count;                       // 引用计数
     list_t inode_list;               // 使用中 inode 链表
     inode_t *iroot;                  // 根目录 inode
     inode_t *imount;                 // 安装到的 inode
@@ -126,9 +127,10 @@ void ifree(dev_t dev, idx_t idx); // 释放一个文件系统 inode
 // 如果不存在 且 create 为 true，则创建
 idx_t bmap(inode_t *inode, idx_t block, bool create);
 
-inode_t *get_root_inode();          // 获取根目录 inode
-inode_t *iget(dev_t dev, idx_t nr); // 获得设备 dev 的 nr inode
-void iput(inode_t *inode);          // 释放 inode
+inode_t *get_root_inode();               // 获取根目录 inode
+inode_t *iget(dev_t dev, idx_t nr);      // 获得设备 dev 的 nr inode
+void iput(inode_t *inode);               // 释放 inode
+inode_t *new_inode(dev_t dev, idx_t nr); // 创建新 inode
 
 inode_t *named(char *pathname, char **next); // 获取 pathname 对应的父目录 inode
 inode_t *namei(char *pathname);              // 获取 pathname 对应的 inode

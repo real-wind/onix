@@ -8,6 +8,7 @@
 #include <onix/string.h>
 #include <onix/stdlib.h>
 #include <onix/stat.h>
+#include <onix/task.h>
 
 #define LOGK(fmt, args...) DEBUGK(fmt, ##args)
 
@@ -68,6 +69,19 @@ static inode_t *find_inode(dev_t dev, idx_t nr)
     return NULL;
 }
 
+static inode_t *fit_inode(inode_t *inode)
+{
+    if (!inode->mount)
+        return inode;
+
+    super_block_t *sb = get_super(inode->mount);
+    assert(sb);
+    iput(inode);
+    inode = sb->iroot;
+    inode->count++;
+    return inode;
+}
+
 // 获得设备 dev 的 nr inode
 inode_t *iget(dev_t dev, idx_t nr)
 {
@@ -77,7 +91,7 @@ inode_t *iget(dev_t dev, idx_t nr)
         inode->count++;
         inode->atime = time();
 
-        return inode;
+        return fit_inode(inode);
     }
 
     super_block_t *sb = get_super(dev);
@@ -88,7 +102,7 @@ inode_t *iget(dev_t dev, idx_t nr)
     inode = get_free_inode();
     inode->dev = dev;
     inode->nr = nr;
-    inode->count ++;
+    inode->count++;
 
     // 加入超级块 inode 链表
     list_push(&sb->inode_list, &inode->node);
@@ -103,6 +117,24 @@ inode_t *iget(dev_t dev, idx_t nr)
 
     inode->ctime = inode->desc->mtime;
     inode->atime = time();
+
+    return inode;
+}
+
+inode_t *new_inode(dev_t dev, idx_t nr)
+{
+    task_t *task = running_task();
+    inode_t *inode = iget(dev, nr);
+    assert(inode->desc->nlinks == 0);
+
+    inode->buf->dirty = true;
+
+    inode->desc->mode = 0777 & (~task->umask);
+    inode->desc->uid = task->uid;
+    inode->desc->size = 0;
+    inode->desc->mtime = inode->atime = time();
+    inode->desc->gid = task->gid;
+    inode->desc->nlinks = 1;
 
     return inode;
 }
