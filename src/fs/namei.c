@@ -14,26 +14,26 @@
 #define P_READ IROTH
 #define P_WRITE IWOTH
 
-static bool permission(inode_t *inode, u16 mask)
-{
-    u16 mode = inode->desc->mode;
+// static bool permission(inode_t *inode, u16 mask)
+// {
+//     u16 mode = inode->desc->mode;
 
-    if (!inode->desc->nlinks)
-        return false;
+//     if (!inode->desc->nlinks)
+//         return false;
 
-    task_t *task = running_task();
-    if (task->uid == KERNEL_USER)
-        return true;
+//     task_t *task = running_task();
+//     if (task->uid == KERNEL_USER)
+//         return true;
 
-    if (task->uid == inode->desc->uid)
-        mode >>= 6;
-    else if (task->gid == inode->desc->gid)
-        mode >>= 3;
+//     if (task->uid == inode->desc->uid)
+//         mode >>= 6;
+//     else if (task->gid == inode->desc->gid)
+//         mode >>= 3;
 
-    if ((mode & mask & 0b111) == mask)
-        return true;
-    return false;
-}
+//     if ((mode & mask & 0b111) == mask)
+//         return true;
+//     return false;
+// }
 
 // 获取第一个分隔符
 char *strsep(const char *str)
@@ -228,7 +228,8 @@ inode_t *named(char *pathname, char **next)
         dev_t dev = inode->dev;
         iput(inode);
         inode = iget(dev, entry->nr);
-        if (!ISDIR(inode->desc->mode) || !permission(inode, P_EXEC))
+        // if (!ISDIR(inode->desc->mode) || !permission(inode, P_EXEC))
+        if (!ISDIR(inode->desc->mode))
             goto failure;
 
         if (right == *next)
@@ -287,9 +288,9 @@ int sys_mkdir(char *pathname, int mode)
     if (!*next)
         goto rollback;
 
-    // 父目录无写权限
-    if (!permission(dir, P_WRITE))
-        goto rollback;
+    // // 父目录无写权限
+    // if (!permission(dir, P_WRITE))
+    //     goto rollback;
 
     char *name = next;
     dentry_t *entry;
@@ -403,9 +404,9 @@ int sys_rmdir(char *pathname)
     if (!*next)
         goto rollback;
 
-    // 父目录无写权限
-    if (!permission(dir, P_WRITE))
-        goto rollback;
+    // // 父目录无写权限
+    // if (!permission(dir, P_WRITE))
+        // goto rollback;
 
     char *name = next;
     dentry_t *entry;
@@ -484,8 +485,8 @@ int sys_link(char *oldname, char *newname)
     if (dir->dev != inode->dev)
         goto rollback;
 
-    if (!permission(dir, P_WRITE))
-        goto rollback;
+    // if (!permission(dir, P_WRITE))
+    //     goto rollback;
 
     char *name = next;
     dentry_t *entry;
@@ -523,8 +524,8 @@ int sys_unlink(char *filename)
     if (!(*next))
         goto rollback;
 
-    if (!permission(dir, P_WRITE))
-        goto rollback;
+    // if (!permission(dir, P_WRITE))
+    //     goto rollback;
 
     char *name = next;
     dentry_t *entry;
@@ -595,8 +596,8 @@ inode_t *inode_open(char *pathname, int flag, int mode)
     if (!(flag & O_CREAT))
         goto rollback;
 
-    if (!permission(dir, P_WRITE))
-        goto rollback;
+    // if (!permission(dir, P_WRITE))
+    //     goto rollback;
 
     buf = add_entry(dir, name, &entry);
     entry->nr = ialloc(dir->dev);
@@ -616,8 +617,8 @@ inode_t *inode_open(char *pathname, int flag, int mode)
     inode->buf->dirty = true;
 
 makeup:
-    if (!permission(inode, flag & O_ACCMODE))
-        goto rollback;
+    // if (!permission(inode, flag & O_ACCMODE))
+    //     goto rollback;
 
     if (ISDIR(inode->desc->mode) && ((flag & O_ACCMODE) != O_RDONLY))
         goto rollback;
