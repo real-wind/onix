@@ -17,6 +17,7 @@ extern void task_init();
 extern void syscall_init();
 extern void tss_init();
 extern void ide_init();
+extern void ramdisk_init();
 extern void buffer_init();
 extern void file_init();
 extern void super_init();
@@ -38,6 +39,8 @@ void kernel_init()
     // time_init();
     // rtc_init();
     ide_init();
+    ramdisk_init();
+    
 
     syscall_init();
     task_init();
